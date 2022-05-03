@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [pages, setPages] = useState("");
-  const [countriesPerPage] = useState(10);
+  
+  
   const navigate = useNavigate();
   const goFirstPage = () => navigate('/pages/1') 
 
-
+// Запрос данных. 
   useEffect(() => {
     setLoading(true);
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -26,19 +26,18 @@ function App() {
       })
       .then((data) => {
         // находим количество страниц: делим массив  на количество элментов на странице
-        const ctr = Math.ceil(data.length / countriesPerPage);
-        setPages(ctr);
+       
         goFirstPage();
-        console.log('render')
+        
       })
       .catch((error) => console.log(error));
   }, []);
 
- 
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout pages={pages}/>}>
+        <Route path="/" element={<Layout/>}>
         
           <Route
             path="/pages/:id"
