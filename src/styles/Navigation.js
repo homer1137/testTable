@@ -13,4 +13,5 @@ export const NavigationStyle = styled.div`
   justify-content: space-between;
   padding-left: 26px;
   padding-right: 26px;
+  margin-top: 10px;
 `;

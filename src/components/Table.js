@@ -5,12 +5,11 @@ import { useState, useEffect } from "react";
 import Search from "./search";
 import Navigation from "./navigation";
 import { useSelector } from "react-redux";
+import { IoChevronDownSharp } from "react-icons/io5";
 
-
-
-export default function Table({ data, }) {
+export default function Table({ data }) {
   const { id } = useParams();
-  
+
   const [pages, setPages] = useState("");
   //количество постов на страницу
   const countriesPerPage = 10;
@@ -20,25 +19,21 @@ export default function Table({ data, }) {
   const [titleFilter, setTitleFilter] = useState(false);
   const [search, setSearch] = useState("");
   const [bodyFilter, setBodyFilter] = useState(false);
-  const [numberFilter, setNumberFilter] = useState(false);
-  const {posts, status, error} = useSelector((state) => state.posts);
-  
+  const [numberFilter, setNumberFilter] = useState(true);
+  const { posts, status, error } = useSelector((state) => state.posts);
+
   const [filteredPosts, setFilteredPosts] = useState(posts);
-  
 
   useEffect(() => {
     handleSearch();
+  }, [search, titleFilter, bodyFilter, numberFilter, posts]);
+
+  useEffect(() => {
     // делаем нужное количество страниц
     const ctr = Math.ceil(filteredPosts.length / countriesPerPage);
     setPages(ctr);
-  }, [search, titleFilter, bodyFilter, numberFilter, posts]);
+  }, [filteredPosts]);
 
-  
-
-  
-  
-  
- 
   //фильтрация данных по запросу
 
   const handleSearch = () => {
@@ -106,7 +101,7 @@ export default function Table({ data, }) {
   // Обработка данных запроса
   const ShowData = () => {
     //загрузка
-    if (status==='loading') {
+    if (status === "loading") {
       return (
         <tr>
           <td></td>
@@ -116,7 +111,7 @@ export default function Table({ data, }) {
       );
     }
     // ошибка
-    if (status==='rejected') {
+    if (status === "rejected") {
       return (
         <tr>
           <td></td>
@@ -125,7 +120,7 @@ export default function Table({ data, }) {
         </tr>
       );
     }
-    
+
     if (!filteredPosts.length) {
       return (
         <tr>
@@ -140,8 +135,8 @@ export default function Table({ data, }) {
       return (
         <tr key={item.id}>
           <td>{item.id}</td>
-          <td>{item.title}</td>
-          <td>{item.body}</td>
+          <td style={{ textAlign: "start" }}>{item.title}</td>
+          <td style={{ textAlign: "start" }}>{item.body}</td>
         </tr>
       );
     });
@@ -153,18 +148,24 @@ export default function Table({ data, }) {
       <StyledTable>
         <thead>
           <tr>
-            <td>
-            <button onClick={() => setNumberFilter(!numberFilter)}>ID</button>
+            <td style={{ width: "112px" }} onClick={() => setNumberFilter(!numberFilter)} >
+            <div>
+            <span>ID</span>
+            {(numberFilter)?<IoChevronDownSharp style={{transform: 'rotate(180deg)', transitionDuration: '0.4s'}}/>:<IoChevronDownSharp style={{transform: 'rotate(0deg)', transitionDuration: '0.4s'}}/>}
+            </div>  
+            
             </td>
-            <td>
-              <button onClick={() => setTitleFilter(!titleFilter)}>
-                Заголовок
-              </button>
+            <td style={{ width: "481.5px" }} onClick={() => setTitleFilter(!titleFilter)}>
+            <div>
+            <span>Заголовок</span>
+            {(titleFilter)?<IoChevronDownSharp style={{transform: 'rotate(180deg)', transitionDuration: '0.4s'}}/>:<IoChevronDownSharp style={{transform: 'rotate(0deg)', transitionDuration: '0.4s'}}/>}
+            </div>  
             </td>
-            <td>
-              <button onClick={() => setBodyFilter(!bodyFilter)}>
-                Описание
-              </button>
+            <td style={{ width: "481.5px" }} onClick={() => setBodyFilter(!bodyFilter)}>
+            <div>
+            <span>Описание</span>
+            {(bodyFilter)?<IoChevronDownSharp style={{transform: 'rotate(180deg)', transitionDuration: '0.4s'}}/>:<IoChevronDownSharp style={{transform: 'rotate(0deg)', transitionDuration: '0.4s'}}/>}
+            </div>
             </td>
           </tr>
         </thead>

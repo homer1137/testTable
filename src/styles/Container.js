@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const GlobalContainer = styled.div`
   width: 1232px;
-  height: 820px;
+  height: auto;
   margin: 0 auto;
   padding: 23px 77px 12px 74px;
   
