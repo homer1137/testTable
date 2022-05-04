@@ -4,32 +4,45 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Search from "./search";
 import Navigation from "./navigation";
+import { useSelector } from "react-redux";
 
-export default function Table({ data, loading }) {
+
+
+export default function Table({ data, }) {
   const { id } = useParams();
-  const [filteredPosts, setFilteredPosts] = useState(data);
+  
   const [pages, setPages] = useState("");
+  //количество постов на страницу
   const countriesPerPage = 10;
+
   const navigate = useNavigate();
   const goFirstPage = () => navigate("/pages/1");
   const [titleFilter, setTitleFilter] = useState(false);
   const [search, setSearch] = useState("");
   const [bodyFilter, setBodyFilter] = useState(false);
   const [numberFilter, setNumberFilter] = useState(false);
+  const {posts, status, error} = useSelector((state) => state.posts);
+  
+  const [filteredPosts, setFilteredPosts] = useState(posts);
+  
 
   useEffect(() => {
-    handleSearch(search, titleFilter);
-  }, [search, data, titleFilter, bodyFilter, numberFilter]);
-
-  useEffect(() => {
+    handleSearch();
+    // делаем нужное количество страниц
     const ctr = Math.ceil(filteredPosts.length / countriesPerPage);
     setPages(ctr);
-  }, [filteredPosts]);
+  }, [search, titleFilter, bodyFilter, numberFilter, posts]);
 
+  
+
+  
+  
+  
+ 
   //фильтрация данных по запросу
 
-  const handleSearch = (search, titleFilter) => {
-    let data2 = [...data];
+  const handleSearch = () => {
+    let data2 = [...posts];
 
     // Фильтр по названию
     if (titleFilter) {
@@ -76,7 +89,7 @@ export default function Table({ data, loading }) {
       });
     }
 
-
+    // фильтрация по поисковому запросу
     if (search) {
       data2 = data2.filter((item) => {
         return (
@@ -85,14 +98,15 @@ export default function Table({ data, loading }) {
         );
       });
     }
-
+    //переход на первую страницу
     goFirstPage();
     setFilteredPosts(data2);
   };
 
   // Обработка данных запроса
   const ShowData = () => {
-    if (loading === true) {
+    //загрузка
+    if (status==='loading') {
       return (
         <tr>
           <td></td>
@@ -101,6 +115,17 @@ export default function Table({ data, loading }) {
         </tr>
       );
     }
+    // ошибка
+    if (status==='rejected') {
+      return (
+        <tr>
+          <td></td>
+          <td>Прошизошла ошибка: {error}</td>
+          <td>Произшла ошибка: {error} </td>
+        </tr>
+      );
+    }
+    
     if (!filteredPosts.length) {
       return (
         <tr>
