@@ -3,7 +3,7 @@ import { GlobalContainer } from "../styles/Container";
 
 import { Outlet } from "react-router-dom";
 
-function Layout({ pages }) {
+function Layout() {
   
   return (
     <GlobalContainer>

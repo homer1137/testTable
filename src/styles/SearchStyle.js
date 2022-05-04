@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-
+import { IoCloseSharp } from "react-icons/io5";
 
 export const SearchStyle = styled.div`
 
@@ -35,6 +35,15 @@ export const InputStyele=styled.input.attrs({
     &::-webkit-search-cancel-button {
         
   cursor: pointer;
+
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  
+  background: url('https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times.svg') no-repeat 50% 50%;
+  background-color: white;
+  background-size: contain;
+  
 }
    
     cursor: 'pointer';

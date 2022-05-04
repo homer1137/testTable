@@ -25,7 +25,7 @@ export default function Table({ data }) {
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
   useEffect(() => {
-    handleSearch();
+    filterPosts();
   }, [search, titleFilter, bodyFilter, numberFilter, posts]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Table({ data }) {
 
   //фильтрация данных по запросу
 
-  const handleSearch = () => {
+  const filterPosts = () => {
     let data2 = [...posts];
 
     // Фильтр по названию
@@ -55,8 +55,7 @@ export default function Table({ data }) {
     }
     // Фильтр по "телу"
     if (bodyFilter) {
-      setTitleFilter(false);
-      setNumberFilter(false);
+      
       data2 = data2.sort(function (a, b) {
         if (a.body < b.body) {
           return -1;
@@ -66,6 +65,8 @@ export default function Table({ data }) {
         }
         return 0;
       });
+      setTitleFilter(false);
+      setNumberFilter(false);
     }
 
     // Фильтр по номеру
